@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, main
 from mock import Mock, patch
 from datetime import date
 import json
@@ -28,7 +28,7 @@ class TestLoad(TestCase):
         notify_by_text({'timeStamp': date.today().strftime('%Y-%m-%d')}, {'timeStamp': date.today().strftime('%Y-%m-%d')})
         mock_twilio.messages.create.assert_not_called()
         notify_by_text({'timeStamp': '2017-03-15T12:10:06+0000'}, {'timeStamp': date.today().strftime('%Y-%m-%d'), 'location':'Slough'})
-        mock_twilio.messages.create.assert_called_with(body='New location: Slough at 2017-03-17.', from_='+441631402022', to='+447793055904')
+        mock_twilio.messages.create.assert_called_with(body='New location: Slough at ' + date.today().strftime('%Y-%m-%d') + '.', from_='+441631402022', to='+447793055904')
 
     @patch('load._get_gmaps')
     @patch('requests.get')
@@ -50,3 +50,6 @@ class TestLoad(TestCase):
         self.assertEqual(resp[0]['lat'], 56.44958)
         self.assertEqual(resp[0]['lon'], -5.72681)
         self.assertEqual(resp[0]['messageType'], 'UNLIMITED-TRACK')
+
+if __name__ == "__main__":
+    main()
