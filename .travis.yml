@@ -6,7 +6,7 @@ deploy:
   provider: lambda
   function_name: "lambda-test"
   region: "eu-west-2"
-  role: "arn:aws:iam::164526544718:role/s3_rw"
+  role: "arn:aws:iam::164526544718:role/lambda"
   runtime: "python"
   handler_name: "load.run_poll"
   access_key_id: "AKIAJXFI2Q42TUVA7VAA"
