@@ -1,13 +1,12 @@
 language: python
 python: '2.7'
 install: pip install -r requirements.txt
-script: python test_load.py
 deploy:
   provider: lambda
   function_name: "lambda-test"
   region: "eu-west-2"
-  role: "arn:aws:iam::164526544718:role/lambda"
-  runtime: "python"
+  role: "arn:aws:iam::164526544718:role/s3_rw"
+  runtime: "python2.7"
   handler_name: "load.run_poll"
   access_key_id: "AKIAJXFI2Q42TUVA7VAA"
   secret_access_key:
