@@ -46,7 +46,6 @@ class TestLoad(TestCase):
         self.assertEqual(2, len(resp))
         resp = get_history_from_spot('2017-03-15T14:00:06+0000')
         self.assertEqual(1, len(resp))
-        print(resp)
         self.assertEqual(resp[0]['name'], 'Niall')
         self.assertEqual(resp[0]['timeStamp'], '2017-03-15T14:10:06+0000')
         self.assertEqual(resp[0]['lat'], 56.44958)
