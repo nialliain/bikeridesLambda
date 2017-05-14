@@ -26,7 +26,7 @@ class TestLoad(TestCase):
     def test_notify_by_text(self, _get_twilio):
         mock_twilio = Mock()
         _get_twilio.return_value = mock_twilio
-        os.environ['alerts.numbers'] = '+447793055904'
+        os.environ['alerts_numbers'] = '+447793055904'
         notify_by_text({'timeStamp': date.today().strftime('%Y-%m-%d')}, {'timeStamp': date.today().strftime('%Y-%m-%d')})
         mock_twilio.messages.create.assert_not_called()
         notify_by_text({'timeStamp': '2017-03-15T12:10:06+0000'}, {'timeStamp': date.today().strftime('%Y-%m-%d'), 'location':'Slough'})
