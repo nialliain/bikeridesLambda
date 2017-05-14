@@ -32,13 +32,17 @@ def latest_status():
 def is_newer_than(s3_latest_timeStamp, spot_message):
     return s3_latest_timeStamp < str(spot_message['dateTime'])
 
+
 def get_history_from_spot(s3_latest_timeStamp):
     gmaps = _get_gmaps()
     def _build_track_point(spot_message):
         def _reverse_geocode(lat, lon):
-            for addr in gmaps.reverse_geocode((lat, lon))[0]['address_components']:
-                if 'postal_town' in addr['types']:
-                   return addr['long_name']
+            try:
+                for addr in gmaps.reverse_geocode((lat, lon))[0]['address_components']:
+                    if 'postal_town' in addr['types']:
+                        return addr['long_name']
+            except:
+                return '[Reverse Geocode Error]'
         track_point = dict()
         track_point['lat'] = spot_message['latitude']
         track_point['lon'] = spot_message['longitude']
@@ -72,7 +76,7 @@ def notify_by_text(previous_trackpoint, trackpoint):
         return
     twilio = _get_twilio()
     message = 'New location: {} at {}.'.format(trackpoint['location'], trackpoint['timeStamp'])
-    for number in ['+447793055904']:
+    for number in os.environ.get('alerts.numbers', []):
         twilio.messages.create(body=message, to=number, from_='+441631402022')
 
 
@@ -81,4 +85,8 @@ def _get_twilio():
 
 
 def _get_gmaps():
-    return Client(key=os.environ['gmaps.key'])
+    return Client(key=os.environ.get('gmaps.key', None))
+
+if __name__ == '__main__':
+    run_poll(None, None)
+

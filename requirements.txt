@@ -1,5 +1,5 @@
 boto3
 requests
 googlemaps
-twilio
+twilio==5.7.0
 pytest
