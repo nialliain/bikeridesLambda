@@ -76,16 +76,16 @@ def notify_by_text(previous_trackpoint, trackpoint):
         return
     twilio = _get_twilio()
     message = 'New location: {} at {}.'.format(trackpoint['location'], trackpoint['timeStamp'])
-    for number in os.environ.get('alerts.numbers', []).split(','):
+    for number in os.environ.get('alerts_numbers', []).split(','):
         twilio.messages.create(body=message, to=number, from_='+441631402022')
 
 
 def _get_twilio():
-    return TwilioRestClient(os.environ['twilio.account'], os.environ['twilio.token'])
+    return TwilioRestClient(os.environ['twilio_account'], os.environ['twilio_token'])
 
 
 def _get_gmaps():
-    return Client(key=os.environ.get('gmaps.key', None))
+    return Client(key=os.environ.get('gmaps_key', None))
 
 if __name__ == '__main__':
     run_poll(None, None)
