@@ -38,8 +38,13 @@ def get_history_from_spot(s3_latest_timeStamp):
     def _build_track_point(spot_message):
         def _reverse_geocode(lat, lon):
             try:
-                for addr in gmaps.reverse_geocode((lat, lon))[0]['address_components']:
+                #Hack
+                googleResp = gmaps.reverse_geocode((lat, lon))[0]['address_components']
+                for addr in googleResp:
                     if 'postal_town' in addr['types']:
+                        return addr['long_name']
+                for addr in googleResp:
+                    if 'locality' in addr['types']:
                         return addr['long_name']
             except:
                 return '[Reverse Geocode Error]'
