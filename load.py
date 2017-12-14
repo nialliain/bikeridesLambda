@@ -40,12 +40,10 @@ def get_history_from_spot(s3_latest_timeStamp):
             try:
                 #Hack
                 googleResp = gmaps.reverse_geocode((lat, lon))[0]['address_components']
-                for addr in googleResp:
-                    if 'postal_town' in addr['types']:
-                        return addr['long_name']
-                for addr in googleResp:
-                    if 'locality' in addr['types']:
-                        return addr['long_name']
+                for addType in ['postal_town', 'locality', 'political']:
+                    for addr in googleResp:
+                        if addType in addr['types']:
+                            return addr['long_name']
             except:
                 return '[Reverse Geocode Error]'
         track_point = dict()
